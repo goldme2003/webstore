@@ -51,6 +51,10 @@ public class ProductServiceImpl implements ProductService{
 	public Set<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
 		    return product_repository.getProductsByFilter(filterParams);
 	}
+	
+	public void addProduct(Product product) {
+		product_repository.addProduct(product);
+	}
 
 
 	
