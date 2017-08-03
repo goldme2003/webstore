@@ -15,14 +15,9 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	List<Customer> all_customer = new ArrayList<Customer>();
 	
-
 	@Autowired
 	private CustomerRepository customer_repository;
 	
-	
-	
-	
-	@Override
 	public List<Customer> getAllCustomers() {
 		all_customer = customer_repository.getAllCustomers();
 		return all_customer;

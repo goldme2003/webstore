@@ -26,10 +26,6 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 		customer_list.add(comp_customer);
 	}
 
-
-	
-
-	@Override
 	public List<Customer> getAllCustomers() {
 
 		return customer_list;
