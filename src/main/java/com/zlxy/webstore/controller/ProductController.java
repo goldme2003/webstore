@@ -136,7 +136,7 @@ public class ProductController {
 	@ExceptionHandler(ProductNotFoundException.class)
 	public ModelAndView handleError(HttpServletRequest req, ProductNotFoundException exception) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("Invalid product id", exception.getProductId());
+		mav.addObject("invalidproductid", exception.getProductId());
 		mav.addObject("exception", exception);
 		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
 		
