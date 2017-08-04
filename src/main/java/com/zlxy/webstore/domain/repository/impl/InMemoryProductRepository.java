@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.math.BigDecimal;
 import com.zlxy.webstore.domain.Product;
 import com.zlxy.webstore.domain.repository.ProductRepository;
+import com.zlxy.webstore.exception.ProductNotFoundException;
 
 @Repository
 public class InMemoryProductRepository implements ProductRepository {
@@ -58,7 +59,8 @@ public class InMemoryProductRepository implements ProductRepository {
 		}
 
 		if (productById == null) {
-			throw new IllegalArgumentException("No products found with the product id: " + productId);
+//			throw new IllegalArgumentException("No products found with the product id: " + productId);
+			throw new ProductNotFoundException("No product found with ID:" + productId);
 		}
 
 		return productById;

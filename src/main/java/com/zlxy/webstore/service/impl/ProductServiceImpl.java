@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.zlxy.webstore.domain.Product;
 import com.zlxy.webstore.domain.repository.ProductRepository;
+import com.zlxy.webstore.exception.ProductNotFoundException;
 import com.zlxy.webstore.service.ProductService;
 
 @Service
@@ -38,7 +39,8 @@ public class ProductServiceImpl implements ProductService{
 		}
 
 		if (productById == null) {
-			throw new IllegalArgumentException("No products found with the product id: " + productId);
+//			throw new IllegalArgumentException("No products found with the product id: " + productId);
+			throw new ProductNotFoundException("No products found with ID:" + productId);
 		}
 
 		return productById;

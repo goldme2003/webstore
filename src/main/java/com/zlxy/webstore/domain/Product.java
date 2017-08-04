@@ -2,8 +2,16 @@ package com.zlxy.webstore.domain;
 
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+@XmlRootElement
 public class Product {
 
 	private String productId;
@@ -16,6 +24,9 @@ public class Product {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+	
+
+	@JsonIgnore
 	private MultipartFile productImage;
 
 
@@ -193,6 +204,9 @@ public class Product {
 	/**
 	 * @return the productImage
 	 */
+
+
+	@XmlTransient
 	public MultipartFile getProductImage() {
 		return productImage;
 	}

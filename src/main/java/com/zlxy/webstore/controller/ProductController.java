@@ -1,7 +1,8 @@
 package com.zlxy.webstore.controller;
 
 import java.io.File;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+//import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zlxy.webstore.domain.Product;
-import com.zlxy.webstore.domain.repository.ProductRepository;
+import com.zlxy.webstore.exception.NoProductsFoundUnderCategoryException;
+import com.zlxy.webstore.exception.ProductNotFoundException;
+//import com.zlxy.webstore.domain.repository.ProductRepository;
 import com.zlxy.webstore.service.ProductService;
 //import com.zlxy.webstore.domain.repository.impl.InMemoryProductRepository;
 
@@ -58,7 +62,12 @@ public class ProductController {
 	
 	@RequestMapping("/{category}")
 	public String getProductsByCategory(Model model, @PathVariable("category") String productCategory) {
-		model.addAttribute("products", productService.getProductsByCategory(productCategory));
+		List<Product> prod_by_categ = new ArrayList<Product>();
+		prod_by_categ = productService.getProductsByCategory(productCategory);
+		if (prod_by_categ == null || prod_by_categ.isEmpty()) {
+			throw new NoProductsFoundUnderCategoryException();
+		}
+		model.addAttribute("products", prod_by_categ);
 		return "products";
 	}
 	
@@ -121,6 +130,19 @@ public class ProductController {
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("UnitsInOrder", "discontinued");
 		binder.setAllowedFields("productId", "name", "unitPrice", "description", "manufacturer", "category", "unitsInStock", "condition", "productImage");
+		
+	}
+	
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ModelAndView handleError(HttpServletRequest req, ProductNotFoundException exception) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("Invalid product id", exception.getProductId());
+		mav.addObject("exception", exception);
+		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
+		
+		mav.setViewName("errorpage/productNotFound");
+		
+		return mav;
 		
 	}
 
