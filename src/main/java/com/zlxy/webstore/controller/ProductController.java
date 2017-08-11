@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -100,7 +101,12 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct, BindingResult result, HttpServletRequest request) {
+	public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product newProduct, BindingResult result, HttpServletRequest request) {
+		
+		if (result.hasErrors()) {
+			return "addProduct";
+		}
+
 		String[] suppressedFields = result.getSuppressedFields();
 		if(suppressedFields.length > 0) {
 			throw new RuntimeException("Attemping to bind disallowed fileds:" + StringUtils.arrayToCommaDelimitedString(suppressedFields));

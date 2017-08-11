@@ -2,6 +2,11 @@ package com.zlxy.webstore.domain;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -13,9 +18,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement
 public class Product {
-
+	
+	@Pattern(regexp="P[0-9]+", message="{Pattern.Product.productId.validation}")
 	private String productId;
+	
+	@Size(min=4, max=50, message="{Size.Product.name.validation}")
 	private String name;
+	
+	@Min(value = 0, message = "Min.Product.unitPrice.validation}")
+	@Digits(integer = 8, fraction = 2, message = "{Digits.Product.unitPrice.validation}")
+	@NotNull(message = "{NotNull.Product.unitPrice.validation}")
 	private BigDecimal unitPrice;
 	private String description;
 	private String manufacturer;
@@ -24,7 +36,6 @@ public class Product {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
-	
 
 	@JsonIgnore
 	private MultipartFile productImage;

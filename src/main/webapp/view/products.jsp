@@ -11,19 +11,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js">
+	
+</script>
+<script src="/webstore/resource/js/controllers.js"></script>
 <title>Products</title>
 </head>
 <body>
-	<section>
+<!-- 	<section> -->
 	<div class="jumbotron">
 		<div class="container">
 			<h1>Products</h1>
 			<p>All the available products in our store</p>
 		</div>
 	</div>
-	</section>
+<!-- 	</section> -->
 
-	<section class="container">
+
+
+
+	<section class="container" ng-app="cartApp">
 	<div class="row">
 		<c:forEach items="${products}" var="product">
 			<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
@@ -40,6 +48,20 @@
 								class="btn btn-primary"> <span
 								class="glyphicon-info-sign glyphicon" /></span> Details
 							</a>
+						</p>
+						<p ng-app="cartCtrl">
+							<a href="#" class="btn btn-warning btn-large"
+								ng-click="addToCart('${product.productId}')"> <span
+								class="glyphicon-shopping-cart glyphicon"></span> Order Now
+							</a>
+						</p>
+
+						<p>
+							<a href="<spring:url value="/cart" />" class="btn btn-default">
+								<span class="glyphicon-hand-right glyphicon"></span> View Cart
+							</a>
+
+
 						</p>
 
 					</div>
